@@ -1,6 +1,6 @@
 import { twMerge } from 'tailwind-merge';
 
-export const Button = ({
+const Button = ({
   type = 'primary',
   onClick,
   children,
@@ -30,3 +30,5 @@ export const Button = ({
     </button>
   );
 };
+
+export default Button;

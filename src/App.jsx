@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { Button } from './Button';
+import Button from './Button';
 import ManageCookieModal from './ManageCookiesModal';
 
 const CookieConsentPopup = ({
@@ -11,6 +11,7 @@ const CookieConsentPopup = ({
 }) => {
   const [subDialogOpen, setSubDialogOpen] = useState(false);
 
+  const onManageCookies = useCallback(() => setSubDialogOpen(true), []);
   const onCloseSubDialog = useCallback(() => setSubDialogOpen(false), []);
 
   const onDeclineAll = () => {
@@ -22,8 +23,6 @@ const CookieConsentPopup = ({
     onAllow();
     onClose();
   }
-
-  const onManageCookies = useCallback(() => setSubDialogOpen(true), []);
 
   return open && (
     <>
@@ -69,9 +68,16 @@ function App() {
 
   const [isOpen, setIsOpen] = useState(true);
 
+  const onDeclineAll = () => { console.log('onDeclineAll') }
+  const onAllowAll = () => { console.log('onAllowAll') }
+  const onConfirm = (categories) => { console.log(categories) }
+
   return (
     <div className='w-full h-svh bg-gradient-to-br from-[#F9FAFB] to-[#D2D6DB]'>
-      <CookieConsentPopup open={isOpen} onClose={() => setIsOpen(false)} />
+      <CookieConsentPopup open={isOpen} onClose={() => setIsOpen(false)}
+        onDecline={onDeclineAll}
+        onAllow={onAllowAll}
+        onConfirm={onConfirm} />
     </div>
   );
 }

@@ -2,11 +2,9 @@ import { createPortal } from 'react-dom';
 import { twMerge } from 'tailwind-merge';
 import { useRef, } from 'react';
 import { Transition, TransitionChild } from '@headlessui/react'
-import useClickOutside from '../hooks/useClickOutside';
+import useClickOutside from './hooks/useClickOutside';
 
 export function ModalImpl({
-    title,
-    subtitle,
     content,
     footer,
     className,
@@ -19,12 +17,6 @@ export function ModalImpl({
 
     return (
         <div className={twMerge('flex flex-col gap-6 p-4 pb-0 shadow-md bg-white rounded-md', className)} onClick={handleClick}>
-            <div className='flex justify-between w-full items-center'>
-                <div className='flex flex-col gap'>
-                    <h1 className="text-lg">{title}</h1>
-                    {subtitle && <p className="text-sm text-neutral-400">{subtitle}</p>}
-                </div>
-            </div>
             {content}
             <div className='sticky bottom-0 bg-white w-full pb-4'>
                 {footer}

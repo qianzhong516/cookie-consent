@@ -2,11 +2,12 @@ import Modal from './Modal';
 import { memo, useCallback, useState } from 'react';
 import Button from './Button';
 import ToggleSlider from './ToggleSlider';
+import { CATEGORIES } from './constants'
 
 const manageCookieContent = [
-    { title: 'Essentials', subtitle: 'These cookies are essential for the proper functioning of our services and cannot be disabled.' },
-    { title: 'Analytics', subtitle: 'These cookies collect information about how you use our services or potential errors you encounter. Based on this information we are able to improve your experience and react to any issues.' },
-    { title: 'Marketing', subtitle: 'These cookies allow us to show you advertisements relevant to you through our advertising partners.' },
+    { id: CATEGORIES.ESSENTIAL, title: 'Essentials', subtitle: 'These cookies are essential for the proper functioning of our services and cannot be disabled.' },
+    { id: CATEGORIES.ANALYTICS, title: 'Analytics', subtitle: 'These cookies collect information about how you use our services or potential errors you encounter. Based on this information we are able to improve your experience and react to any issues.' },
+    { id: CATEGORIES.MARKETING, title: 'Marketing', subtitle: 'These cookies allow us to show you advertisements relevant to you through our advertising partners.' },
 ];
 
 const ManageCookieItem = memo(function ManageCookieItem({ title, subtitle, isOn, onToggle, disabled }) {
@@ -26,12 +27,12 @@ const ManageCookieModal = ({
     onConfirm,
     onDelete
 }) => {
-    const [allowedCookies, setAllowedCookies] = useState([true, true, true]);
+    const [allowedCookies, setAllowedCookies] = useState(() => Object.fromEntries(Object.keys(CATEGORIES).map(key => ([CATEGORIES[key], true]))));
 
-    const createOnToggle = useCallback((i) => () => {
+    const createOnToggle = useCallback((id) => () => {
         setAllowedCookies(prev => {
-            const copy = [...prev];
-            copy[i] = !copy[i];
+            const copy = { ...prev };
+            copy[id] = !copy[id];
             return copy;
         });
     }, []);
@@ -51,13 +52,13 @@ const ManageCookieModal = ({
         onClose();
     }
 
-    const content = manageCookieContent.map(({ title, subtitle }, i) =>
-        <ManageCookieItem key={i}
+    const content = manageCookieContent.map(({ id, title, subtitle }) =>
+        <ManageCookieItem key={id}
             title={title}
             subtitle={subtitle}
-            isOn={allowedCookies[i]}
-            onToggle={createOnToggle(i)}
-            disabled={i === 0} />);
+            isOn={allowedCookies[id]}
+            onToggle={createOnToggle(id)}
+            disabled={id === CATEGORIES.ESSENTIAL} />);
 
     const footer = (<div className='flex flex-col gap-2'>
         <div className='flex justify-between gap-2'>

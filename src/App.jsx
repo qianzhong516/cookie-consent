@@ -1,14 +1,33 @@
 import { useState } from 'react';
 import CookieConsentPopup from './CookieConsentPopup';
+import Storage from './utils/storage';
+import { CATEGORIES } from './constants'
+
+const STORAGE_KEY = 'cookiePreference';
 
 function App() {
-  // TODO: if have seen this popup before, do not show it.
+  const hasPreference = Storage.getItem(STORAGE_KEY);
+  const [isOpen, setIsOpen] = useState(!hasPreference);
 
-  const [isOpen, setIsOpen] = useState(true);
-
-  const onDeclineAll = () => { console.log('onDeclineAll') }
-  const onAllowAll = () => { console.log('onAllowAll') }
-  const onConfirm = (categories) => { console.log(categories) }
+  const onDeclineAll = () => {
+    const value = {};
+    Object.keys(CATEGORIES).forEach(key => {
+      if (key !== CATEGORIES.ESSENTIAL) {
+        value[CATEGORIES[key]] = false;
+      }
+    });
+    Storage.setItem(STORAGE_KEY, value);
+  }
+  const onAllowAll = () => {
+    const value = {};
+    Object.keys(CATEGORIES).forEach(key => {
+      value[CATEGORIES[key]] = true;
+    });
+    Storage.setItem(STORAGE_KEY, value);
+  }
+  const onConfirm = (categories) => {
+    Storage.setItem(STORAGE_KEY, categories);
+  }
 
   return (
     <div className='w-full h-svh bg-gradient-to-br from-[#F9FAFB] to-[#D2D6DB]'>

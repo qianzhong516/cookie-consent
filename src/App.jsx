@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CookieConsentPopup from './CookieConsentPopup';
 import Storage from './utils/storage';
 import { CATEGORIES, CATEGORY_FILE_MAPPING } from './constants'
@@ -6,6 +6,7 @@ import { CATEGORIES, CATEGORY_FILE_MAPPING } from './constants'
 const STORAGE_KEY = 'cookiePreference';
 
 const loadScripts = (obj) => {
+  if (!obj) return;
   Object.keys(obj).forEach(key => {
     if (obj[key]) {
       addScript(key, CATEGORY_FILE_MAPPING[key]);
@@ -21,12 +22,15 @@ function addScript(key, src) {
   const script = document.createElement('script');
   script.id = key;
   script.src = src;
-  document.body.appendChild(script);
+  document.head.appendChild(script);
 }
 
 function App() {
-  const hasPreference = Storage.getItem(STORAGE_KEY);
-  const [isOpen, setIsOpen] = useState(!hasPreference);
+  const [isOpen, setIsOpen] = useState(!Storage.getItem(STORAGE_KEY));
+
+  useEffect(() => {
+    loadScripts(Storage.getItem(STORAGE_KEY));
+  }, []);
 
   const onDeclineAll = () => {
     const value = {};
@@ -46,6 +50,7 @@ function App() {
     loadScripts(value);
   }
   const onConfirm = (obj) => {
+    // TODO: use document.cookie to save the consents instead, so there can be a time limit
     Storage.setItem(STORAGE_KEY, obj);
     loadScripts(obj);
   }

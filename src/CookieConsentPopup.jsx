@@ -58,7 +58,10 @@ const CookieConsentPopup = ({
                     </div>
                 </div>
             </div>
-            <ManageCookieModal open={subDialogOpen} onClose={onCloseSubDialog} onAccept={onAllow} onConfirm={onConfirm} onDelete={onDecline} />
+            <ManageCookieModal open={subDialogOpen} onClose={() => {
+                onCloseSubDialog();
+                onClose();
+            }} onAccept={onAllow} onConfirm={onConfirm} onDelete={onDecline} />
         </>
     );
 };

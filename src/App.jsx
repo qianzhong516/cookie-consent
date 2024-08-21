@@ -1,9 +1,28 @@
 import { useState } from 'react';
 import CookieConsentPopup from './CookieConsentPopup';
 import Storage from './utils/storage';
-import { CATEGORIES } from './constants'
+import { CATEGORIES, CATEGORY_FILE_MAPPING } from './constants'
 
 const STORAGE_KEY = 'cookiePreference';
+
+const loadScripts = (obj) => {
+  Object.keys(obj).forEach(key => {
+    if (obj[key]) {
+      addScript(key, CATEGORY_FILE_MAPPING[key]);
+    }
+  });
+}
+
+function addScript(key, src) {
+  const scripts = document.querySelectorAll('script');
+  if (scripts && Array.from(scripts).some(script => script.id === key)) {
+    return;
+  }
+  const script = document.createElement('script');
+  script.id = key;
+  script.src = src;
+  document.body.appendChild(script);
+}
 
 function App() {
   const hasPreference = Storage.getItem(STORAGE_KEY);
@@ -24,9 +43,11 @@ function App() {
       value[CATEGORIES[key]] = true;
     });
     Storage.setItem(STORAGE_KEY, value);
+    loadScripts(value);
   }
-  const onConfirm = (categories) => {
-    Storage.setItem(STORAGE_KEY, categories);
+  const onConfirm = (obj) => {
+    Storage.setItem(STORAGE_KEY, obj);
+    loadScripts(obj);
   }
 
   return (

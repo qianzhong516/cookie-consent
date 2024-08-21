@@ -9,11 +9,11 @@ const manageCookieContent = [
     { title: 'Marketing', subtitle: 'These cookies allow us to show you advertisements relevant to you through our advertising partners.' },
 ];
 
-const ManageCookieItem = memo(function ManageCookieItem({ title, subtitle, isOn, onToggle }) {
+const ManageCookieItem = memo(function ManageCookieItem({ title, subtitle, isOn, onToggle, disabled }) {
     return <div className='flex flex-col '>
         <div className='flex justify-between items-center'>
             <h3 className='text-md font-bold text-neutral-900'>{title}</h3>
-            <ToggleSlider on={isOn} onToggle={onToggle} />
+            <ToggleSlider on={isOn} onToggle={onToggle} disabled={disabled} />
         </div>
         <p className='text-sm text-neutral-600'>{subtitle}</p>
     </div>
@@ -56,7 +56,8 @@ const ManageCookieModal = ({
             title={title}
             subtitle={subtitle}
             isOn={allowedCookies[i]}
-            onToggle={createOnToggle(i)} />);
+            onToggle={createOnToggle(i)}
+            disabled={i === 0} />);
 
     const footer = (<div className='flex flex-col gap-2'>
         <div className='flex justify-between gap-2'>

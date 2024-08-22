@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Noto Sans', sans-serif;
+    font-size: clamp(1.125rem, 1.081rem + 0.1878vw, 1.25rem);
+  }
+}

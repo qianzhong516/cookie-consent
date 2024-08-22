@@ -2,6 +2,7 @@ import { createPortal } from 'react-dom';
 import { twMerge } from 'tailwind-merge';
 import { Transition, TransitionChild } from '@headlessui/react'
 
+// TODO: trap the focus control in the dialog
 export function ModalImpl({
     content,
     footer,

@@ -14,7 +14,7 @@ const ManageCookieItem = memo(function ManageCookieItem({ title, subtitle, isOn,
     return <div className='flex flex-col '>
         <div className='flex justify-between items-center'>
             <h3 className='text-md font-bold text-neutral-900'>{title}</h3>
-            <ToggleSlider on={isOn} onToggle={onToggle} disabled={disabled} />
+            <ToggleSlider on={isOn} onToggle={onToggle} disabled={disabled} ariaLabel={`Allow ${title} Cookies`} />
         </div>
         <p className='text-sm text-neutral-600'>{subtitle}</p>
     </div>

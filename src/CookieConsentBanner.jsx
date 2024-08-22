@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import Button from './Button';
 import ManageCookieModal from './ManageCookiesModal';
 
-const CookieConsentPopup = ({
+const CookieConsentBanner = ({
     open,
     onClose,
     onDecline,
@@ -61,9 +61,9 @@ const CookieConsentPopup = ({
             <ManageCookieModal open={subDialogOpen} onClose={() => {
                 onCloseSubDialog();
                 onClose();
-            }} onAccept={onAllow} onConfirm={onConfirm} onDelete={onDecline} />
+            }} onAccept={onAllow} onConfirm={onConfirm} onDecline={onDecline} />
         </>
     );
 };
 
-export default CookieConsentPopup;
+export default CookieConsentBanner;

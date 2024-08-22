@@ -8,7 +8,6 @@ export function ModalImpl({
     content,
     footer,
     className,
-    onClose,
 }) {
     const handleClick = (e) => {
         // prevent newly opened dialog from being closed

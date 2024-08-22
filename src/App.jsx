@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import CookieConsentPopup from './CookieConsentPopup';
+import CookieConsentBanner from './CookieConsentBanner';
 import Storage from './utils/storage';
 import { CATEGORIES, CATEGORY_FILE_MAPPING } from './constants'
 
@@ -57,7 +57,7 @@ function App() {
 
   return (
     <div className='w-full h-svh bg-gradient-to-br from-[#F9FAFB] to-[#D2D6DB]'>
-      <CookieConsentPopup open={isOpen} onClose={() => setIsOpen(false)}
+      <CookieConsentBanner open={isOpen} onClose={() => setIsOpen(false)}
         onDecline={onDeclineAll}
         onAllow={onAllowAll}
         onConfirm={onConfirm} />

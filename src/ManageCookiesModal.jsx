@@ -4,7 +4,7 @@ import Button from './Button';
 import ToggleSlider from './ToggleSlider';
 import { CATEGORIES } from './constants'
 
-const manageCookieContent = [
+const MANAGE_COOKIES_CONTENT = [
     { id: CATEGORIES.ESSENTIAL, title: 'Essentials', subtitle: 'These cookies are essential for the proper functioning of our services and cannot be disabled.' },
     { id: CATEGORIES.ANALYTICS, title: 'Analytics', subtitle: 'These cookies collect information about how you use our services or potential errors you encounter. Based on this information we are able to improve your experience and react to any issues.' },
     { id: CATEGORIES.MARKETING, title: 'Marketing', subtitle: 'These cookies allow us to show you advertisements relevant to you through our advertising partners.' },
@@ -25,7 +25,7 @@ const ManageCookieModal = ({
     onClose,
     onAccept,
     onConfirm,
-    onDelete
+    onDecline
 }) => {
     const [allowedCookies, setAllowedCookies] = useState(() => Object.fromEntries(Object.keys(CATEGORIES).map(key => ([CATEGORIES[key], true]))));
 
@@ -42,8 +42,8 @@ const ManageCookieModal = ({
         onClose();
     }
 
-    const handleDelete = () => {
-        onDelete();
+    const handleDecline = () => {
+        onDecline();
         onClose();
     }
 
@@ -52,7 +52,7 @@ const ManageCookieModal = ({
         onClose();
     }
 
-    const content = manageCookieContent.map(({ id, title, subtitle }) =>
+    const content = MANAGE_COOKIES_CONTENT.map(({ id, title, subtitle }) =>
         <ManageCookieItem key={id}
             title={title}
             subtitle={subtitle}
@@ -66,11 +66,14 @@ const ManageCookieModal = ({
             <Button type='secondary' onClick={handleConfirm} className='w-full'>Save</Button>
         </div>
         <div>
-            <Button type='tetiary' onClick={handleDelete} className='w-full'>Delete all</Button>
+            <Button type='tetiary' onClick={handleDecline} className='w-full'>Decline all</Button>
         </div>
     </div>)
 
-    return <Modal open={open} content={content} footer={footer} onClose={onClose} className='max-w-[400px]' />
+    return <Modal open={open} content={content} footer={footer} onClose={() => {
+        onClose();
+        onDecline();
+    }} className='max-w-[400px]' />
 }
 
 export default ManageCookieModal;

@@ -1,8 +1,6 @@
 import { createPortal } from 'react-dom';
 import { twMerge } from 'tailwind-merge';
-import { useRef, } from 'react';
 import { Transition, TransitionChild } from '@headlessui/react'
-import useClickOutside from './hooks/useClickOutside';
 
 export function ModalImpl({
     content,
@@ -15,7 +13,7 @@ export function ModalImpl({
     }
 
     return (
-        <div className={twMerge('flex flex-col gap-6 p-4 pb-0 shadow-md bg-white rounded-md', className)} onClick={handleClick}>
+        <div className={twMerge('flex flex-col gap-6 p-4 pb-0 shadow-md bg-white rounded-md', className)} onClick={handleClick} role='dialog'>
             {content}
             <div className='sticky bottom-0 bg-white w-full pb-4'>
                 {footer}
@@ -31,9 +29,6 @@ export default function Modal({
     open,
     ...props
 }) {
-    const panelRef = useRef(null);
-    const enabled = open;
-    useClickOutside(enabled, panelRef.current ? [panelRef.current] : [], props.onClose);
 
     return open && createPortal(
         <Transition show={open} appear={true}>
@@ -53,7 +48,7 @@ export default function Modal({
                             leave="ease-out"
                             leaveFrom="scale-100"
                             leaveTo="scale-0">
-                            <div className='transition duration-[250ms]' ref={panelRef}>
+                            <div className='transition duration-[250ms]' >
                                 <ModalImpl {...props} />
                             </div>
                         </TransitionChild>

@@ -25,7 +25,7 @@ const CookieConsentBanner = ({
     }
 
     return open && (
-        <>
+        <div className='fixed inset-0 w-full h-svh bg-neutral-950/40 backdrop-blur-sm'>
             <div className='fixed bottom-0 w-full bg-white' onClick={(e) => {
                 // This is a hack to prevent the subdialog from being closed immediately once it's opened.
                 // (Fix)TODO: pass in the pop-up as one of the containers, so it's disregarded as being 'outside'. see `useClickOutside`.
@@ -62,7 +62,7 @@ const CookieConsentBanner = ({
                 onCloseSubDialog();
                 onClose();
             }} onAccept={onAllow} onConfirm={onConfirm} onDecline={onDecline} />
-        </>
+        </div>
     );
 };
 
